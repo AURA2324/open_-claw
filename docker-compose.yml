@@ -1,0 +1,17 @@
+services:
+  open-claw:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      WHATSAPP_API_TOKEN: ${WHATSAPP_API_TOKEN}
+      WHATSAPP_BUSINESS_ACCOUNT_ID: ${WHATSAPP_BUSINESS_ACCOUNT_ID}
+      WHATSAPP_PHONE_NUMBER_ID: ${WHATSAPP_PHONE_NUMBER_ID}
+      WHATSAPP_VERIFY_TOKEN: ${WHATSAPP_VERIFY_TOKEN}
+      ORDER_SYSTEM_API_URL: ${ORDER_SYSTEM_API_URL}
+      ORDER_SYSTEM_API_KEY: ${ORDER_SYSTEM_API_KEY}
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - /app/node_modules

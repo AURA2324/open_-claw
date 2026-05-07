@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Claw - WhatsApp Automation Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1>🤖 Open Claw</h1>
+        <p>WhatsApp Automation Agent</p>
+      </div>
+      <div class="navbar-status">
+        <span id="status-indicator" class="status-dot"></span>
+        <span id="status-text">Connecting...</span>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <ul class="nav-menu">
+          <li><a href="#dashboard" class="nav-link active" data-section="dashboard">📊 Dashboard</a></li>
+          <li><a href="#messages" class="nav-link" data-section="messages">💬 Messages</a></li>
+          <li><a href="#orders" class="nav-link" data-section="orders">📦 Orders</a></li>
+          <li><a href="#manual" class="nav-link" data-section="manual">✉️ Send Message</a></li>
+          <li><a href="#stats" class="nav-link" data-section="stats">📈 Statistics</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+          <h2>Dashboard Overview</h2>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📬</div>
+              <div class="stat-content">
+                <div class="stat-label">Messages Processed</div>
+                <div class="stat-value" id="stat-messages">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div class="stat-content">
+                <div class="stat-label">Orders Matched</div>
+                <div class="stat-value" id="stat-orders">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">⏱️</div>
+              <div class="stat-content">
+                <div class="stat-label">Uptime</div>
+                <div class="stat-value" id="stat-uptime">0s</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">💾</div>
+              <div class="stat-content">
+                <div class="stat-label">Cache Hit Rate</div>
+                <div class="stat-value" id="stat-cache">0%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>ℹ️ System Configuration:</strong>
+            <div id="config-info"></div>
+          </div>
+
+          <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <div id="activity-list" class="activity-list">
+              <p>No recent activity</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Messages Section -->
+        <section id="messages" class="section">
+          <h2>Message History</h2>
+          
+          <div class="filter-bar">
+            <input type="text" id="message-search" placeholder="Search messages..." class="search-input">
+            <button id="refresh-messages" class="btn btn-secondary">🔄 Refresh</button>
+          </div>
+
+          <div class="table-container">
+            <table class="messages-table">
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>Message</th>
+                  <th>Type</th>
+                  <th>Processed</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="messages-body">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: #999;">Loading messages...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section id="orders" class="section">
+          <h2>Order Matching</h2>
+          
+          <div class="order-search">
+            <div class="search-group">
+              <label>Search by Phone Number (Priority 1)</label>
+              <div class="input-group">
+                <input type="tel" id="phone-search" placeholder="+255 700 000 000" class="search-input">
+                <button id="search-phone-btn" class="btn btn-primary">Search by Phone</button>
+              </div>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <div class="search-group">
+              <label>Search by Customer Name (Priority 2 - Fuzzy Match)</label>
+              <div class="input-group">
+                <input type="text" id="name-search" placeholder="Customer name..." class="search-input">
+                <button id="search-name-btn" class="btn btn-primary">Search by Name</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="search-results" class="search-results"></div>
+        </section>
+
+        <!-- Send Message Section -->
+        <section id="manual" class="section">
+          <h2>Send Manual Message</h2>
+          
+          <div class="form-group">
+            <label for="recipient">Recipient Phone Number</label>
+            <input type="tel" id="recipient" placeholder="+255 700 000 000" class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label for="message-text">Message</label>
+            <textarea id="message-text" class="form-textarea" placeholder="Enter your message..." rows="5"></textarea>
+          </div>
+
+          <button id="send-message-btn" class="btn btn-primary btn-lg">Send Message</button>
+          <div id="send-result" class="alert alert-hidden"></div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section id="stats" class="section">
+          <h2>System Statistics</h2>
+          
+          <div class="stats-container">
+            <div class="stats-box">
+              <h3>Performance Metrics</h3>
+              <div id="perf-stats" class="stats-list"></div>
+            </div>
+
+            <div class="stats-box">
+              <h3>Cache Performance</h3>
+              <div id="cache-stats" class="stats-list"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
